@@ -84,6 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final _inputController = TextEditingController();
   Section? _activeSection;
   Question? _activeQuestion;
+  bool _showWrongOverlay = false;
 
   final confettiPlayer = AudioPlayer();
   final drumRollPlayer = AudioPlayer();
@@ -214,17 +215,29 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: const Text("Family 100", style: TextStyle(fontWeight: FontWeight.bold),),
       ),
-      body: Builder(
-        builder: (context) {
-          switch (mode) {
-            case Mode.membering:
-            return unstartedWidget();
-            case Mode.gameStarted:
-            return startedWidget();
-            case Mode.gameFinished:
-            return finishedWidget();
-          }
-        },
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Builder(
+              builder: (context) {
+                switch (mode) {
+                  case Mode.membering:
+                  return unstartedWidget();
+                  case Mode.gameStarted:
+                  return startedWidget();
+                  case Mode.gameFinished:
+                  return finishedWidget();
+                }
+              },
+            ),
+          ),
+          _showWrongOverlay ? const Positioned.fill(
+            child: Padding(
+              padding: EdgeInsets.only(left: 64, right: 64, bottom: 400, top: 64),
+              child: Icon(Icons.clear, color: Colors.red, size: 900),
+            ),
+          ) : Container()
+        ],
       )
     );
   }
@@ -253,7 +266,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Text("$_groupBTotalPoint", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 80))
                 ],
               );
-            } else if (_groupBTotalPoint < _groupATotalPoint) {
+            } else if (_groupBTotalPoint > _groupATotalPoint) {
 
               loserWidget = Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -387,20 +400,20 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: InkWell(
                             onTap: () async {
                               // TODO: If you want to submit answer by clicking, uncomment this
-                              // _inputtedAnswer = e.answer;
-                              // if (await onSubmitAnswer()) {
-                              //   // await Future.wait(players.map((element) => element.pause() ));
-                              //   // await Future.wait(players.map((element) => element.seek(Duration.zero) ));
-                              //   // await unansweredPlayer.play();
-                              // }
+                              _inputtedAnswer = e.answer;
+                              if (await onSubmitAnswer()) {
+                                // await Future.wait(players.map((element) => element.pause() ));
+                                // await Future.wait(players.map((element) => element.seek(Duration.zero) ));
+                                // await unansweredPlayer.play();
+                              }
                               
                               // TODO: If you dont want to submit answer by clicking, comment this
-                              setState(() {
-                                _spilledAnswers.add(e.answer);
-                              });
-                              await Future.wait(players.map((element) => element.pause() ));
-                              await Future.wait(players.map((element) => element.seek(Duration.zero) ));
-                              await unansweredPlayer.play();
+                              // setState(() {
+                              //   _spilledAnswers.add(e.answer);
+                              // });
+                              // await Future.wait(players.map((element) => element.pause() ));
+                              // await Future.wait(players.map((element) => element.seek(Duration.zero) ));
+                              // await unansweredPlayer.play();
                             },
                             child: Container(
                               width: double.infinity,
@@ -475,7 +488,7 @@ class _MyHomePageState extends State<MyHomePage> {
               });
             }, child: const Text("Next")) : Container(),
             const SizedBox(height: 16),
-            _selectedGroups[0].isWinner == true || _selectedGroups[1].isWinner == false ? ElevatedButton(onPressed: () async {
+            _selectedGroups[0].isWinner == true || _selectedGroups[1].isWinner == true ? ElevatedButton(onPressed: () async {
               await Future.wait(players.map((element) => element.pause() ));
               await Future.wait(players.map((element) => element.seek(Duration.zero) ));
               await drumRollPlayer.play();
@@ -500,24 +513,34 @@ class _MyHomePageState extends State<MyHomePage> {
       Row(
         children: [
           const SizedBox(width: 32),
-          Expanded(
-            child: TextField(
-              onSubmitted: (inputtedValue) {
-                _inputtedAnswer = inputtedValue;
-                onSubmitAnswer();
-              },
-              controller: _inputController,
-              decoration: const InputDecoration(
-                hintText: "Input answer here"
-              ),
-              onChanged: (value) {
-                _inputtedAnswer = value;
-              },
-            ),
-          ),
+          // Expanded(
+          //   child: TextField(
+          //     onSubmitted: (inputtedValue) {
+          //       _inputtedAnswer = inputtedValue;
+          //       onSubmitAnswer();
+          //     },
+          //     controller: _inputController,
+          //     decoration: const InputDecoration(
+          //       hintText: "Input answer here"
+          //     ),
+          //     onChanged: (value) {
+          //       _inputtedAnswer = value;
+          //     },
+          //   ),
+          // ),
           TextButton(onPressed: () async { 
-            onSubmitAnswer();
-          }, child: const Text("Submit")),
+            setState(() {
+              _showWrongOverlay = true;
+            });
+            await Future.wait(players.map((element) => element.pause() ));
+            await Future.wait(players.map((element) => element.seek(Duration.zero) ));
+            await wrongAnswerPlayer.seek(const Duration(milliseconds: 700));
+            await wrongAnswerPlayer.play();
+            await Future.delayed(const Duration(milliseconds: 500));
+            setState(() {
+              _showWrongOverlay = false;
+            });
+          }, child: const Text("Wrong")),
           const SizedBox(width: 32),
         ],
       ),
@@ -596,7 +619,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget unstartedWidget() => Column(
     children: [
       Expanded(
-        flex: 4,
+        flex: 7,
         child: SingleChildScrollView(
           child: Builder(
             builder: (context) {
