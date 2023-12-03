@@ -1,0 +1,143 @@
+[
+    {
+        "difficulty": 1,
+        "questions": [
+            {
+                "question": "Apa nama ibukota yang terkenal di dunia?",
+                "answers": [
+                    {
+                        "point": 10,
+                        "answer": "Italy/Italia"
+                    },
+                    {
+                        "point": 10,
+                        "answer": "Jakarta"
+                    },
+                    {
+                        "point": 10,
+                        "answer": "Bogor"
+                    },
+                    {
+                        "point": 10,
+                        "answer": "Singapore/Singapur/Singapura"
+                    },
+                    {
+                        "point": 10,
+                        "answer": "Surabaya"
+                    }
+                ]
+            },
+            {
+                "question": "Name a reason someone might be running late.",
+                "answers": [
+                    {
+                        "point": 25,
+                        "answer": "Traffic"
+                    },
+                    {
+                        "point": 20,
+                        "answer": "Overslept"
+                    },
+                    {
+                        "point": 15,
+                        "answer": "Forgot something at home"
+                    },
+                    {
+                        "point": 10,
+                        "answer": "Stuck in a meeting"
+                    },
+                    {
+                        "point": 5,
+                        "answer": "Public transportation delays "
+                    }
+                ]
+            },
+            {
+                "question": "Name something you might find in the refrigerator",
+                "answers": [
+                    {
+                        "point": 25,
+                        "answer": "Milk"
+                    },
+                    {
+                        "point": 20,
+                        "answer": "Eggs"
+                    },
+                    {
+                        "point": 15,
+                        "answer": "Leftovers"
+                    },
+                    {
+                        "point": 10,
+                        "answer": "Vegetables"
+                    },
+                    {
+                        "point": 5,
+                        "answer": "Butter"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "difficulty": 1,
+        "questions": [
+            {
+                "question": "Name a popular dessert that many people love",
+                "answers": [
+                    {
+                        "point": 25,
+                        "answer": "Chocolate cake"
+                    },
+                    {
+                        "point": 20,
+                        "answer": "Ice cream"
+                    },
+                    {
+                        "point": 15,
+                        "answer": "Apple pie"
+                    },
+                    {
+                        "point": 10,
+                        "answer": "Cheesecake"
+                    },
+                    {
+                        "point": 5,
+                        "answer": "Brownies"
+                    }
+                ]
+            },
+            {
+                "question": "Besides a house or a car, name something expensive that people own.",
+                "answers": [
+                    {
+                        "point": 25,
+                        "answer": "Jewelry"
+                    },
+                    {
+                        "point": 20,
+                        "answer": "Electronics"
+                    },
+                    {
+                        "point": 15,
+                        "answer": "Designer clothing"
+                    },
+                    {
+                        "point": 10,
+                        "answer": "Artwork"
+                    },
+                    {
+                        "point": 5,
+                        "answer": "Furniture"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "difficulty": 1,
+        "questions": [
+            
+        ]
+    }
+]
